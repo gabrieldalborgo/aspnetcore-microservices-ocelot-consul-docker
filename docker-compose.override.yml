@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  clients:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ServiceConfig__serviceDiscoveryAddress=http://consul:8500
+      - ServiceConfig__serviceAddress=http://clients:80
+      - ServiceConfig__serviceName=clients
+      - ServiceConfig__serviceId=clients-v1
+    ports:
+      - "80"
+
+  policies:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ServiceConfig__serviceDiscoveryAddress=http://consul:8500
+      - ServiceConfig__serviceAddress=http://policies:80
+      - ServiceConfig__serviceName=policies
+      - ServiceConfig__serviceId=policies-v1
+    ports:
+      - "80"
+
+  api.gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80:80"
+
+  consul:
+    ports:
+    - "8500"

@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  clients:
+    image: clients:latest
+    build:
+      context: .
+      dockerfile: src/services/Clients/Dockerfile
+    container_name: clients
+    depends_on:
+      - consul
+
+  policies:
+    image: policies:latest
+    build:
+      context: .
+      dockerfile: src/services/Policies/Dockerfile
+    container_name: policies
+    depends_on:
+      - consul
+
+  api.gateway:
+    image: apigateway:latest
+    build:
+      context: .
+      dockerfile: src/gateways/API.Gateway/Dockerfile
+    container_name: apigateway
+
+  consul:
+    image: consul:latest
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    hostname: consul
+    container_name: consul
